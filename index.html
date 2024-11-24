@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nestor Garcia - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+        <style>
+            /* General Styles */
+            body {
+                background-color: rgba(240, 207, 145, 0.404); /* Beige-white color */
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh; /* Ensure it takes the full height of the viewport */
+                color: rgb(255, 255, 255); /* White text */
+                overflow-x: hidden; /* Prevent horizontal scroll */
+            }
+            header, section, footer {
+                padding: 20px;
+                margin: 0 auto;
+                max-width: 1200px;
+            }
+            h1, h2, h3 {
+                margin: 0 0 10px;
+            }
+            p, ul, li {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            a {
+                text-decoration: none; /* Fixed: 'wrapper' is not a valid value */
+                color: rgb(60, 40, 5);
+            }
+    
+            /* Navigation Bar */
+            nav ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+            }
+            nav ul li {
+                display: inline;
+            }
+    
+            /* Section Styles */
+            .section-block {
+                background-color: rgba(5, 3, 1, 0.09); /* Subtle brown background */
+                padding: 15px;
+                margin-bottom: 50px;
+                border-radius: 15px;
+                box-shadow: 5px 2px 4px rgba(0, 0, 0, 0.842);
+                opacity: 0; /* Hidden by default for animation */
+                transform: translateY(50px); /* Off-screen (vertical shift) */
+                transition: all 0.8s ease-out;
+            }
+            .section-block.visible {
+                opacity: 1;
+                transform: translateY(0); /* Slide in smoothly */
+            }
+    
+            /* Responsive Fonts */
+            h1 {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            ul {
+                padding-left: 20px;
+            }
+    
+            /* Homepage Header */
+            .homepage-header {
+                position: relative;
+                background-color: rgba(5, 3, 1, 0.09);
+                padding: 40px 20px 20px;
+                margin-bottom: 50px;
+                border-radius: 15px;
+                box-shadow: 5px 2px 4px rgba(0, 0, 0, 0.842);
+                height: 300px;
+                display: center;
+                justify-content: center;
+                align-items: center;
+            }
+            .homepage-header h1 {
+                position: left;
+                top: 20px;
+                left: 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 2.5rem;
+                color: #fff;
+                margin: 10;
+                text-align: left;
+            }
+    
+            /* Intro and CTA Buttons */
+            .header-content {
+                text-align: center;
+                max-width: auto;
+            }
+            .main-intro {
+                text-align: center; /* Centers the text horizontally */
+                display: center; /* Enables flexbox for vertical centering */
+                justify-content: center; /* Centers horizontally within the container */
+                align-items: center; /* Centers vertically within the container */
+                flex-direction: column; /* Ensures paragraphs stack vertically */
+                max-width: auto; /* Optional: restricts the width for better readability */
+                margin: 0 auto; /* Centers the container horizontally within the page */
+                padding: 20px;
+                color: #ffffff; /* Keeps the text white */
+            }
+            .subheading {
+                font-style: italic;
+                font-size: 1rem;
+                color: #ffffff;
+                margin-bottom: 30px;
+            }
+            .cta-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+            }
+            .cta-buttons .btn {
+                display: inline-block;
+                text-decoration: none;
+                background-color: #e4a735cf;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 1rem;
+                font-family: 'Poppins', sans-serif;
+                transition: background-color 0.3s ease;
+            }
+            .cta-buttons .btn:hover {
+                background-color: #4f3f29;
+            }
+    
+            /* Timeline Styles */
+            .timeline-container {
+                position: relative;
+                width: 100%;
+                max-width: auto;
+                margin: 0 auto;
+                padding: 10px;
+                max-height: auto;
+                overflow-y: auto; /* Enables vertical scroll */
+            }
+            .timeline {
+                list-style: none;
+                padding: 0;
+            }
+            .timeline-item {
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding: 20px;
+                margin-bottom: 30px;
+                background-color: #fff;
+                border: 2px solid 5px 2px 4px rgba(0, 0, 0, 0.842);
+                border-radius: 15px;
+                box-shadow: 5px 2px 4px rgba(0, 0, 0,  0.842);
+                transition: transform 0.3s ease-in-out;
+            }
+            .timeline-item:hover {
+                transform: translateY(-10px);
+            }
+            .timeline-content {
+                padding-left: 20px;
+                display: flex;
+                flex-direction: column;
+            }
+            .timeline-logo {
+                width: 120px;
+                height: 70px;
+                background-color: transparent;
+                border-radius: 40%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                margin-right: 20px;
+            }
+            .timeline-logo img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .timeline-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                width: 100%;
+            }
+            .timeline-header h3 {
+                margin: 0;
+            }
+            .timeline-header small {
+                margin-left: 15px;
+                font-size: 0.9em;
+                color: #ffffff;
+            }
+            .timeline-item:nth-child(even) {
+                background-color: rgba(5, 3, 1, 0.09);
+            }
+            .timeline-item:nth-child(odd) {
+                background-color: rgba(5, 3, 1, 0.09);
+            }
+            .timeline-buttons {
+                margin-top: 10px;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+            .timeline-buttons a {
+                display: inline-block;
+                padding: 8px 15px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #fff;
+                background-color: #e4a735cf;
+                border-radius: 5px;
+                text-decoration: none;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+            .timeline-buttons a:hover {
+                background-color:  rgba(199, 101, 4, 0.508);
+                transform: translateY(-3px);
+                cursor: pointer;
+            }
+                /* Certifications Section */
+                .certification-section {
+                    background-color: rgba(5, 3, 1, 0.09);
+                    border-radius: 15px;
+                    box-shadow: 5px 2px 4px rgba(0, 0, 0, 0.842);
+                    padding: 20px;
+                    margin-bottom: 50px;
+                }
+
+                /* Certifications Heading Inside the Container */
+                .certification-badges-container h2 {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 2rem;
+                    color: #fff;
+                    margin-bottom: 20px;
+                    text-align: left;  /* Ensures the text aligns to the left */
+                }
+
+                /* Certification Badges Container */
+                .certification-badges {
+                    display: flex;
+                    justify-content: center;  /* Centers the badges horizontally */
+                    align-items: center;  /* Aligns badges vertically if necessary */
+                    gap: 20px;  /* Adds space between badges */
+                    flex-wrap: wrap;  /* Allows badges to wrap on smaller screens */
+                }
+
+                /* Individual Certification Badge */
+                .certification-badges img {
+                    max-width: 230px;  /* Limit the width of each image */
+                    height: auto;  /* Maintain the aspect ratio of the images */
+                    border-radius: 5px;  /* Optional rounding of badge corners */
+                    transition: transform 0.3s ease;  /* Smooth transition for hover effect */
+                }
+
+                .certification-badges img:hover {
+                    transform: scale(1.05);  /* Slightly enlarges the image on hover */
+                }
+        </style>
+    </head>
+<body>
+    <header>
+        <h1>Welcome to My Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <header class="homepage-header section-block">
+            <div class="header-content">
+                <h1>Hi, I’m Nestor Garcia 👋</h1>
+                <div class="intro-and-cta">
+                    <p class="main-intro">
+                A multi-disciplinary professional with experience in Web Development, Data Analytics, UI/UX Design, and Information Technology. Helping bridge Anthropology and Technology to create impactful solutions, for real world problems.
+            </p>
+            <p class="subheading">
+                "Combining creativity, data, and technical expertise to design better digital experiences and solve complex problems."
+            </p>
+            <div class="cta-buttons">
+                <a href="resume.pdf" class="btn" target="_blank" rel="noopener noreferrer"> View My Resume</a>
+                <a href="dataprojects.html" class="btn" target="_blank" rel="noopener noreferrer"> Data Analytic Projects</a></li>
+                <a href="programingprojects.html" class="btn" target="_blank" rel="noopener noreferrer"> Programing Projects</a></li>
+                <a href="https://github.com/nest0r-cpu" class="btn" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+                <a href="uxprojects.html" class="btn" target="_blank" rel="noopener noreferrer"> UX Projects</a>
+                <a href="https://www.linkedin.com/in/nestor-garcia-cervantes-/" class="btn" target="_blank" rel="noopener noreferrer">Connect With Me</a>
+            </div>
+        </div>
+    </div>
+</header>
+    <section class="timeline-container">
+        <div class="timeline">
+            <!-- Timeline Item 1 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/ccsf_seal_red.png" alt="CCSF Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>Student at City College of San Francisco</h3>
+                        <small>(In Progress)</small>
+                    </div>
+                    <p>I am currently a student studying CNIT: Cybersecurity & Computer Science, where 
+                        I’m building a strong foundation in network security, ethical hacking, and software
+                         development to solve real-world challenges in technology.</p>
+                    <div class="timeline-buttons">
+                        <a href="https://www.ccsf.edu/academics/schools/stem/computer-networking-and-information-technology-department-cnit" target="_blank">Learn More About CNIT</a>
+                        <a href="https://www.ccsf.edu/academics/schools/stem/computer-science-department" target="_blank">Learn More About CS</a>
+                        <a href="https://example.com/courses" target="_blank">View Courses</a>
+                        <a href="https://example.com/projects" target="_blank">View Projects</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/cooplogo.png" alt="COOP Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>COOP Data Analytics Fellowship</h3>
+                        <small>Fall of 2024</small>
+                    </div>
+                    <p>Engaged in a 16-week fellowship program, acquiring expertise in data cleaning, 
+                        transformation, analysis, and visualization using SQL, Python, and Tableau, alongside continuous 
+                        professional development.</p>
+                    <div class="timeline-buttons">
+                        <a href="https://coopcareers.org/" target="_blank">Learn More About COOP</a>
+                        <a href="https://coursera.org/share/8d7269749fd728a5c26cc895198abbac" target="_blank">View Google Data Analytics Certificate</a>
+                        <a href="dataprojects.html" target="_blank">View Projects</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline Item 3 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/openavenueslogo.png" alt="Open Avenues Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>Open Avenues Fellowship</h3>
+                        <small>Fall of 2024</small>
+                    </div>
+                        <p>Through the 'Unveiling Health: Data Discovery Expedition' project, I explored public health data
+                         to uncover emerging trends and disease patterns, applying data cleaning, exploratory analysis, 
+                         and predictive modeling techniques to generate actionable insights for improving healthcare outcomes.
+                        </p>
+                    <div class="timeline-buttons">
+                        <a href="https://hub.buildfellowship.com/build-projects/unveiling-health-data-discovery-expedition?de1f0ad8_page=2" target="_blank">Learn More About about the Project</a>
+                        <a href="openavenuesproject/FinalProjectNestorGarcia.pdf" target="_blank">View Final Project Report</a>
+                        <a href="dataprojects.html" target="_blank">View Projects</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/medalogo.png" alt="MEDA Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>MEDA Mission Techies IT Support Fellowship</h3>
+                        <small>Spring of 2023</small>
+                    </div>
+                    <p>I completed the MEDA Mission Techies program, where I gained hands-on experience in IT troubleshooting, 
+                        Python scripting, networking, and system administration, automating processes and 
+                        resolving technical issues to enhance efficiency and customer satisfaction.</p>
+                    <div class="timeline-buttons">
+                        <a href="https://medasf.org/programs/mission-techies/" target="_blank">Learn More about MEDA</a>
+                        <a href="https://coursera.org/share/70c6f99267de253134ba45d7224ecb25" target="_blank">Google IT Automation Certificate</a>
+                        <a href="https://example.com/certificate" target="_blank">Google IT Support Certificate</a>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline Item 4 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/uxlogo.png" alt="UX Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>UI/UX Designer/Tester</h3>
+                        <small>01/2023 – 02/2024</small>
+                    </div>
+                    <p>As a Freelancer UI/UX Designer/Tester, I collaborated with clients to create user-friendly designs, 
+                        streamline project workflows, and enhance usability through targeted testing and feedback, achieving a 
+                        25% boost in positive user experiences.
+                    </p>
+                        <div class="timeline-buttons">
+                        <a href="https://example.com/projects" target="_blank">View Projects</a>
+                        <a href="https://example.com/contact" target="_blank">UX Test Documentation Reports</a>
+                        <a href="https://coursera.org/share/387edbf49c597f548d98f3900a3f4522" target="_blank">Google UX Design Certificate</a>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline Item 5 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/balboalogo.png" alt="Balboa Pet Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                            <h3>Customer Service Representative</h3>
+                            <small>09/2021 – 05/ 2022</small>
+                        </div>
+                        <p>As a Customer Service Representative at Balboa Pet Hospital, 
+                            I managed 40-60 daily customer interactions, resolving issues with a 
+                            95% success rate and improving satisfaction scores by 35% through effective communication and 
+                            problem-solving.
+                        </p>
+                        <div class="timeline-buttons">
+                        <a href="https://balboapethospital.com/" target="_blank">Access Balboa Pet Hospital</a>
+                        <a href="https://www.sfspca.org/give-1/?utm_source=gpbrandurlevergreenrsa&utm_medium=googlepaid&utm_campaign=evergreenSEMEvergreen%20SEM-CPC&gad_source=1&gclid=CjwKCAiAl4a6BhBqEiwAqvrquqn5J5DR_i9A8iwY4I2--gaGLx0QbxgcIAM4KFZ1CKmRwHP7H9YCxBoC72oQAvD_BwE" target="_blank">Donate to SF SPCA</a>
+                        <a href="https://www.cleartheshelters.com/" target="_blank">Help Clear The Shelters</a>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline Item 6 -->
+            <div class="timeline-item">
+                <div class="timeline-logo">
+                    <img src="timelinepics/sfsulogo.png" alt="San Francisco State University Logo">
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>Undergraduate Degree: Anthropology & Latina/o Studies</h3>
+                        <small>May 2021</small>
+                    </div>
+                    <p>Earned a degree in Anthropology & Latina/o Studies from San Francisco State University, 
+                        College of Liberal & Creative Arts. Focused on understanding the cultural, social, and historical 
+                        dynamics of Latinx communities while engaging in comprehensive research and fieldwork.</p>
+                    <div class="timeline-buttons">
+                        <a href="https://sfsu.edu/" target="_blank">Visit San Francisco State University</a>
+                        <a href="https://anthropology.sfsu.edu/" target="_blank">Visit SFSU Anthropology Dept.</a>
+                        <a href="https://ltns.sfsu.edu/" target="_blank">Visit SFSU Latina/o Dept.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </class=>
+    </div>
+    </section>
+   <!-- Certifications Section -->
+    <section class="certification-section">
+        <div class="certification-badges-container">
+            <!-- Certifications Section Heading Inside Container -->
+            <h2>Certifications</h2>
+            
+            <div class="certification-badges">
+                <!-- Google Data Analytics Certificate -->
+                <a href="certs/dacert.pdf" target="_blank" rel="noopener noreferrer">
+                    <img src="certs/dagoogle.png" alt="Google Data Analytics Certificate" title="Google Data Analytics Certificate" />
+                </a>
+                <!-- Google IT Support Certificate -->
+                <a href="certs/itcert.pdf" target="_blank" rel="noopener noreferrer">
+                    <img src="certs/itgoogle.png" alt="Google IT Support Certificate" title="Google IT Support Certificate" />
+                </a>
+                <!-- Google IT Automation with Python Certificate -->
+                <a href="certs/pythoncert.pdf" target="_blank" rel="noopener noreferrer">
+                    <img src="certs/pythongoogle.png" alt="Google IT Automation with Python Certificate" title="Google IT Automation with Python Certificate" />
+                </a>
+                <!-- Google UX Design Certificate -->
+                <a href="certs/uxcert.pdf" target="_blank" rel="noopener noreferrer">
+                    <img src="certs/uxgoogle.png" alt="Google UX Design Certificate" title="Google UX Design Certificate" />
+                </a>
+            </div>
+        </div>
+    </section>
+    <section id="skills" class="section-block">
+        <h2>Skills</h2>
+        <h3>Technical Skills & Experience</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th><strong>Skills & Tools</strong></th>
+                    <th><strong>Experience/Project</strong></th>
+                    <th><strong>Freelancer UI/UX Designer/Tester</strong></th>
+                    <th><strong>Film Industry Data Analysis Visualization</strong></th>
+                    <th><strong>Article Summarization using Python NLP</strong></th>
+                    <th><strong>Unveiling Health: Data Discovery Expedition</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Python</td>
+                    <td>Data analysis, web development, article summarization, predictive modeling</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>SQL</td>
+                    <td>Data cleaning, transformation, and analysis in healthcare and film industry datasets</td>
+                    <td></td>
+                    <td>✔</td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Tableau</td>
+                    <td>Data visualization, report generation, and trend analysis in public health and film industry projects</td>
+                    <td></td>
+                    <td>✔</td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Excel (Pivot Tables, VLOOKUP)</td>
+                    <td>Data cleaning, analysis, and visualization using advanced Excel functions</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>SPSS</td>
+                    <td>Data analysis, cleaning, and preparation for healthcare datasets</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>UX/UI Design</td>
+                    <td>Wireframes, prototypes, user testing, and interface design to improve client satisfaction and usability</td>
+                    <td>✔</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Predictive Modeling</td>
+                    <td>Analyzing trends and creating predictive models for healthcare and industry data</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Data Cleaning & Preparation</td>
+                    <td>Data wrangling, handling missing data, outliers, and ensuring data quality</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Data Visualization</td>
+                    <td>Creating clear, actionable visual representations of complex data insights</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Feature Selection/Engineering</td>
+                    <td>Applying techniques to identify the most relevant data features for predictive models</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Statistical Analysis</td>
+                    <td>Descriptive statistics, hypothesis testing, and regression analysis to derive insights from datasets</td>
+                    <td></td>
+                    <td>✔</td>
+                    <td></td>
+                    <td>✔</td>
+                </tr>
+                <tr>
+                    <td>Communication</td>
+                    <td>Presenting complex technical findings clearly to both technical and non-technical stakeholders</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+ 
+    <section id="contact" class="section-block">
+        <h2>Contact Me</h2>
+        <p>Interested in collaborating or have a project in mind? Feel free to reach out to me!</p>
+        <form>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="4" required></textarea><br><br>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Nestor Garcia. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section-block');
+            const observerOptions = {
+                threshold: 0.2, // Trigger when 20% of the section is visible
+            };
+    
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible'); // Add visible when in view
+                    } else {
+                        entry.target.classList.remove('visible'); // Remove visible when out of view
+                    }
+                });
+            }, observerOptions);
+    
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>    
+</body>
+</html>
